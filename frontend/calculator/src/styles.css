@@ -1,0 +1,89 @@
+.calculator-container {
+    height: 400px;
+    width: 300px;
+    border-radius: 15px;
+    background-color: #000000;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjusted to ensure the input and buttons fit properly */
+.input-container {
+    background-color: #000000;
+    padding: 0 5%;
+    border-radius: 15px 15px 0 0;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.input-container h1 {
+    margin: 0;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    text-align: right;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Ensure the buttons take up the remaining space */
+.buttons-container {
+    flex: 1; /* Fills remaining space in .calculator-container */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 5px;
+}
+
+.button-row {
+    display: flex;
+    gap: 5px;
+    flex: 1; /* Ensures each row has an equal height */
+}
+
+.button-row button {
+    flex: 1; /* Allows buttons to scale properly */
+    border-radius: 30px;
+    border: solid 1px #000000;
+    font-size: 20px;
+    transition: 0.1s ease-in;
+    background-color: #444444;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensuring special buttons scale correctly */
+.button-row .zero-btn {
+    flex: 2; /* Takes up twice the space */
+    text-align: left;
+    padding-left: 15px;
+}
+
+.button-row .decimal-btn,
+.button-row .equal-sign-btn {
+    flex: 1;
+}
+
+.button-row .last-button {
+    background-color: #ff9900;
+}
+
+.button-row .last-button:hover {
+    background-color: #a26100;
+}
+
+.button-row .top {
+    background-color: #dddddd;
+    color: #000000;
+}
+
+.button-row .top:hover {
+    background-color: #949494;
+}
