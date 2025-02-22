@@ -43,6 +43,5 @@ while n > 0:
 
     division_set = create_divide_set(number_of_rows)
     np.savetxt(path + "divide.csv", division_set, delimiter=",", fmt="%.2f", header="Col1,Col2,Col3", comments="")
-
     n -= 1
 print(f'generated dataset of size {n} for each file')
