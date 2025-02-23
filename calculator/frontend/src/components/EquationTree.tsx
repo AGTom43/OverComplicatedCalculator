@@ -1,75 +1,6 @@
 import React, { JSX, useState } from "react";
 import { Tree, TreeNode } from "react-organizational-chart";
-
-
-// Custom Button Component
-const Button: React.FC<{
-    children: React.ReactNode;
-    onClick: () => void;
-    className?: string;
-    variant?: 'ghost';
-    size?: 'sm';
-}> = ({ children, onClick, className = '' }) => (
-    <button
-        onClick={onClick}
-        className={`px-3 py-1 rounded hover:bg-gray-200 transition-colors ${className}`}
-    >
-        {children}
-    </button>
-);
-
-// Custom Dialog Components
-interface DialogProps {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    children: React.ReactNode;
-}
-
-const Dialog: React.FC<DialogProps> = ({ open, onOpenChange, children }) => {
-    if (!open) return null;
-
-    // Handle escape key
-    React.useEffect(() => {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                onOpenChange(false);
-            }
-        };
-        
-        document.addEventListener('keydown', handleEscape);
-        return () => document.removeEventListener('keydown', handleEscape);
-    }, [onOpenChange]);
-
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-            {/* Backdrop */}
-            <div 
-                className="fixed inset-0 bg-black/50 cursor-pointer" 
-                onClick={() => onOpenChange(false)}
-                aria-hidden="true"
-            />
-            {/* Modal content */}
-            <div 
-                className="relative bg-white rounded-lg shadow-lg max-w-md w-full mx-4"
-                onClick={e => e.stopPropagation()} // Prevent clicks inside modal from closing it
-            >
-                {children}
-            </div>
-        </div>
-    );
-};
-
-const DialogContent: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="p-6">{children}</div>
-);
-
-const DialogHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="mb-4">{children}</div>
-);
-
-const DialogTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <h2 className="text-xl font-semibold">{children}</h2>
-);
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "./DialogComponents";
 
 type ExpressionNode = {
     func: string;
@@ -191,7 +122,7 @@ const OperatorButton: React.FC<{
                 variant="ghost"
                 size="sm"
                 className="min-w-8 h-8 px-2"
-                onClick={() => setIsOpen(prev => !prev)} // Toggle open state
+                onClick={() => setIsOpen(prev => !prev)}
             >
                 {operator}
             </Button>
@@ -221,7 +152,6 @@ const OperatorButton: React.FC<{
         </>
     );
 };
-
 
 const getOperatorSymbol = (func: string, args: (ExpressionNode | string | number)[]): string => {
     switch (func) {
