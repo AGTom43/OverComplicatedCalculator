@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import calculator
+from calculation import calculate_expression
 
 app = Flask(__name__)
 CORS(app)
@@ -11,11 +11,20 @@ def calculate():
     data = request.get_json()
     print(data)
     equation = data.get("equation", "")
-
+    print("data", equation)
     try:
-        result = calculator.func()
+        print("trying")
+        print(equation)
+        normal_result, nn_result, tree_dump, layers = calculate_expression(equation)
 
-        return jsonify({"result": result})
+        # layers = list(layers)
+        
+        return jsonify({
+            "normal_result": normal_result,
+            "nn_result": nn_result,
+            "tree_structure": tree_dump,
+            "layers": layers
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
