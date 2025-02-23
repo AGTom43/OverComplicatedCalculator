@@ -102,7 +102,7 @@ def eval_nn(node):
             elif type(node.op) == ast.Div:
                 #Assume nonzero right
                 sign = np.product(np.sign([left, right]))
-                x = np.log([[abs(left), -abs(right)]])
+                x = np.array([[np.log(abs(left)), -np.log(abs(right))]])
                 layer = manual_predict(mult_model, x)
                 result = mult_model.predict(x)[0]
                 result = sign * np.exp(result)
