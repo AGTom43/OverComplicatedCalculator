@@ -242,12 +242,10 @@ const buildTree = (node: ExpressionNode | string | number): JSX.Element => {
 
 interface ExpressionTreeProps {
     expression: string;
-    calculatedValues: [];
 }
 
-const ExpressionTree: React.FC<ExpressionTreeProps> = ({ expression, calculatedValues }) => {
+const ExpressionTree: React.FC<ExpressionTreeProps> = ({ expression }) => {
     const parsedTree = parseExpression(expression);
-    const value = calculatedValues;
     
     return (
         <div className="flex justify-center mt-8">
