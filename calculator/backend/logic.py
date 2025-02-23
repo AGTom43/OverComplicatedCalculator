@@ -76,6 +76,7 @@ def eval_nn(node):
             right = evaluate_nn(node.right)
             
             if type(node.op) == ast.Add:
+                print(left, right)
                 if abs(left) < 16 and abs(right) < 16:
                     x = np.array([[left, right]])
                     layer = manual_predict(mult_model, x)
