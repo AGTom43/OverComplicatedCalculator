@@ -155,7 +155,11 @@ def clean_tree_dump(text):
 #TODO: Change here
 expression = "10*3+5-2"
 def get_results(expression):
+    print("hello")
     tree = parse_tree(expression)
+    print(tree)
     results, layers = eval_nn(tree.body)
+
+    print(results, layers)
     
     return eval_normal(tree.body), results, dump_tree(tree), [modify_layer(l) for l in layers]
