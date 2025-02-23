@@ -23,8 +23,33 @@ def load_pickle(filename):
 mult_model = load_pickle('ml_model/models/add4.pkl')
 add_model = load_pickle('ml_model/models/add16.pkl')
 
+
+def manual_predict(model, x):
+    layer_values = [x.T]
+    
+    weights = model.coefs_
+    biass = model.intercepts_
+        
+    def sigmoid(x):
+        return 1 / (1 + np.exp(-x))
+    
+    if model.activation == 'logistic':
+        A = sigmoid
+    else:
+        A = lambda x: x * (x > 0)
+    
+    for W, b in zip(weights, biass):
+        if len(b) == 1:
+            x = x@W + b
+        else:
+            x = A(x@W + b)
+        layer_values.append(x)
+    
+    return layer_values
+
 def eval_nn(node):
     results = []
+    layers = []
     def evaluate_nn(node):
         if isinstance(node, ast.Num):  # Numbers
             return node.n
@@ -34,26 +59,40 @@ def eval_nn(node):
             
             if type(node.op) == ast.Add:
                 if abs(left) < 16 and abs(right) < 16:
-                    result = mult_model.predict([[left, right]])[0]
+                    x = np.array([[left, right]])
+                    layer = manual_predict(mult_model, x)
+                    result = mult_model.predict(x)[0]
                 else:
-                    result = add_model.predict([[left, right]])[0]
+                    x = np.array([[left, right]])
+                    layer = manual_predict(add_model, x)
+                    result = add_model.predict(x)[0]
             elif type(node.op) == ast.Sub:
                 if abs(left) < 16 and abs(right) < 16:
-                    result = mult_model.predict([[left, -right]])[0]
+                    x = np.array([[left, -right]])
+                    layer = manual_predict(mult_model, x)
+                    result = mult_model.predict(x)[0]
                 else:
-                    result = add_model.predict([[left, -right]])[0]
+                    x = np.array([[left, -right]])
+                    layer = manual_predict(add_model, x)
+                    result = add_model.predict(x)[0]
             elif type(node.op) == ast.Mult:
                 sign = np.product(np.sign([left, right]))
-                result = mult_model.predict(np.log(np.abs([[left, right]])))[0]
+                x = np.log(np.abs([[left, right]]))
+                layer = manual_predict(mult_model, x)
+                result = mult_model.predict(x)[0]
                 result = sign * np.exp(result)
             elif type(node.op) == ast.Div:
                 #Assume nonzero right
                 sign = np.product(np.sign([left, right]))
-                X = [[np.log(abs(left)), -np.log(abs(right))]]
-                result = sign * np.exp(mult_model.predict(X))[0]
+                x = np.log([[abs(left), -abs(right)]])
+                layer = manual_predict(mult_model, x)
+                result = mult_model.predict(x)[0]
+                result = sign * np.exp(result)
             else:
                 result = operators[type(node.op)](left, right)
+                layer = []
             results.append(result)
+            layers.append(layer)
             return result
         elif isinstance(node, ast.UnaryOp):  # Unary operations (e.g., -3, +4)
             operand = evaluate_nn(node.operand)
@@ -61,7 +100,7 @@ def eval_nn(node):
         else:
             raise ValueError("Unsupported expression")
     tree = evaluate_nn(node)
-    return results
+    return results, layers
 
 # input tree.body
 def eval_normal(node):
@@ -94,8 +133,11 @@ def clean_tree_dump(text):
     while i < len(text):
         pass
         
+
+#TODO: Change here
 expression = "10*3+5-2"
 def get_results(expression):
     tree = parse_tree(expression)
+    results, layers = eval_nn(tree.body)
     
-    return eval_normal(tree.body), eval_nn(tree.body), dump_tree(tree)
+    return eval_normal(tree.body), results, dump_tree(tree), layers
