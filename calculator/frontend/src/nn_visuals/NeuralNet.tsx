@@ -4,7 +4,18 @@
 import NNVisualizer from '/src/nn_visuals/NNVisualiser.js'; // ✅ Works with default exports
 import { useEffect } from 'react';
 
-export default function NeuralNet() {
+export interface Layer {
+  units: number;
+  fill?: string[]; // Optional array of colours
+  stroke?: string; // Optional stroke colour
+  strokeWidth?: number; // Optional stroke width
+  radius?: number; // Optional radius
+}
+export type LayersConfig = Layer[];
+
+
+export default function NeuralNet({ layersRepresentation }: { layersRepresentation: LayersConfig }) {
+  
     useEffect(() => {
         const target = document.getElementById("visualizer-container");
         if (target  && !target.hasChildNodes()) {
@@ -12,29 +23,8 @@ export default function NeuralNet() {
                 width: 800,
                 height: 600,
                 network: {
-                    layers: [
-                        {
-                          units: 1,
-                        },
-                        {
-                          units: 3,
-                          fill: ['blue','green','red'],
-                          stroke: 'black',
-                          strokeWidth: 0.5,
-                          radius: 5,
-                        },
-                        {
-                            units: 8,
-                            fill: ['red','red','red','green','yellow','red','black','red'],
-                            stroke: 'black',
-                            strokeWidth: 0.5,
-                            radius: 5,
-                          },
-                        {
-                          units: 1,
-                        },
-                      ],
-                      diameter: 20
+                    layers:layersRepresentation,
+                    diameter: 20
                 },
             });
         }

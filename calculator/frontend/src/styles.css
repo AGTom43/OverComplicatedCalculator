@@ -87,3 +87,12 @@
 .button-row .top:hover {
     background-color: #949494;
 }
+
+
+.neural-net-vis {
+    position: absolute;
+    right: 0; /* Move it to the left edge */
+    top: 30%;
+    transform: translateY(30%); /* Center it vertically */
+  }
+  
