@@ -5,6 +5,11 @@ import "../src/styles.css";
 import NeuralNet from "./nn_visuals/NeuralNet";
 import { LayersConfig } from "./nn_visuals/NeuralNet";
 
+interface CalculatorProps {
+  setExpression: (values: "") => void;
+  setCalculatedValues: (values: []) => void;
+}
+
 // Example usage:
 const exampleConfig: LayersConfig =[
     { units: 1 },
@@ -25,7 +30,7 @@ const exampleConfig: LayersConfig =[
     { units: 1 },
   ]
 
-export default function Calculator() {
+export default function Calculator({ setExpression, setCalculatedValues }: CalculatorProps) {
   const [equation, setEquation] = useState("0");
   const [totalEquation, setTotalEquation] = useState("");
   const [LayersSetUp,setLayersSetUp] = useState([]);
@@ -75,6 +80,8 @@ export default function Calculator() {
       console.log(data)
       setEquation(data.nn_result.toString());
       setLayersSetUp(data.layers)
+      setExpression(data.tree_structure);
+      setCalculatedValues(data.normal_result)
       setTotalEquation(""); // Clear stored equation
     } catch (error) {
       console.error("Error:", error);
@@ -87,9 +94,9 @@ export default function Calculator() {
     <div className="calculator-container">
       <Input error={false} input={totalEquation + equation} />
       <Buttons handleOnPress={handleButtonPress} />
-    <div className="neural-net-vis">
+    {/* <div className="neural-net-vis">
       <NeuralNet layersRepresentation={exampleConfig}/>
-    </div>
+    </div> */}
     </div>
   );
 }

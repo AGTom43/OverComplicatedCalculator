@@ -76,7 +76,6 @@ def eval_nn(node):
             right = evaluate_nn(node.right)
             
             if type(node.op) == ast.Add:
-                print(left, right)
                 if abs(left) < 16 and abs(right) < 16:
                     x = np.array([[left, right]])
                     layer = manual_predict(mult_model, x)
@@ -156,11 +155,8 @@ def clean_tree_dump(text):
 #TODO: Change here
 expression = "10*3+5-2"
 def get_results(expression):
-    print("hello")
     tree = parse_tree(expression)
-    print(tree)
-    results, layers = eval_nn(tree.body)
 
-    print(results, layers)
+    results, layers = eval_nn(tree.body)
     
     return eval_normal(tree.body), results, dump_tree(tree), [modify_layer(l) for l in layers]

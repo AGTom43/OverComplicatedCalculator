@@ -137,7 +137,8 @@ const OperatorButton: React.FC<{
                             <div className="text-lg font-mono">
                                 {rightValue !== null ? (
                                     <>
-                                        {leftValue} {operator} {rightValue} = {result}
+                                        Actual Value: {leftValue} {operator} {rightValue} = {result}
+                                        Calculated Value: 
                                     </>
                                 ) : (
                                     <>
@@ -163,6 +164,8 @@ const getOperatorSymbol = (func: string, args: (ExpressionNode | string | number
             return "-";
         case "Sub":
             return "-";
+        case "Div":
+            return "/";
         case "Constant":
             return args[0].toString();
         case "UnaryOp":
@@ -171,7 +174,7 @@ const getOperatorSymbol = (func: string, args: (ExpressionNode | string | number
             const operator = args.find(arg => 
                 typeof arg === "object" && 
                 "func" in arg && 
-                ["Add", "Mult", "USub", "Sub"].includes(arg.func)
+                ["Add", "Mult", "USub", "Sub", "Div"].includes(arg.func)
             ) as ExpressionNode;
             return operator ? getOperatorSymbol(operator.func, operator.args) : "?";
         default:
@@ -207,7 +210,7 @@ const buildTree = (node: ExpressionNode | string | number): JSX.Element => {
     if (node.func === "BinOp") {
         const operands = node.args.filter(arg => 
             typeof arg === "object" && 
-            (!("func" in arg) || !["Add", "Mult", "USub", "Sub"].includes(arg.func))
+            (!("func" in arg) || !["Add", "Mult", "USub", "Sub", "Div"].includes(arg.func))
         );
         
         return (
@@ -239,10 +242,12 @@ const buildTree = (node: ExpressionNode | string | number): JSX.Element => {
 
 interface ExpressionTreeProps {
     expression: string;
+    calculatedValues: [];
 }
 
-const ExpressionTree: React.FC<ExpressionTreeProps> = ({ expression }) => {
+const ExpressionTree: React.FC<ExpressionTreeProps> = ({ expression, calculatedValues }) => {
     const parsedTree = parseExpression(expression);
+    const value = calculatedValues;
     
     return (
         <div className="flex justify-center mt-8">
