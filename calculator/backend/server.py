@@ -15,15 +15,15 @@ def calculate():
     try:
         print("trying")
         print(equation)
-        normal_result, nn_result, tree_dump, layers = calculate_expression(equation)
+        normal_result, nn_result, tree_dump, x = calculate_expression(equation)
 
-        layers = list(layers)
+        # layers = list(layers)
         
         return jsonify({
             "normal_result": normal_result,
             "nn_result": nn_result,
             "tree_structure": tree_dump,
-            "layers": layers
+            # "layers": layers
         })
 
     except Exception as e:

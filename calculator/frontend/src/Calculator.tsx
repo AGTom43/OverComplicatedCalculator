@@ -73,7 +73,7 @@ export default function Calculator() {
   
       const data = await response.json();
       console.log(data)
-      setEquation(data.result.toString());
+      setEquation(data.nn_result.toString());
       setLayersSetUp(data.layers)
       setTotalEquation(""); // Clear stored equation
     } catch (error) {

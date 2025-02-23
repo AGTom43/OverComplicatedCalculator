@@ -1,5 +1,4 @@
-from logic import get_results
-
+import logic
 def calculate_expression(expression):
-    print(get_results(expression))
-    return get_results(expression)
+    print(logic.get_results(expression))
+    return logic.get_results(expression)
