@@ -47,6 +47,24 @@ def manual_predict(model, x):
     
     return layer_values
 
+def modify_layer(layer, goal = (8,8,8)):
+    if layer == []:
+        return layer
+    
+    new_layer = [layer[0]]
+    for i in range(len(goal)):
+        current_goal = goal[i]
+        current_layer = layer[i+1]
+        
+        _layer = current_layer.reshape((-1, current_layer.shape[1] // current_goal))
+        _layer = np.mean(_layer, axis = 1)
+        
+        new_layer.append(_layer)
+    
+    new_layer.append(layer[-1])
+    
+    return new_layer
+
 def eval_nn(node):
     results = []
     layers = []
@@ -140,4 +158,4 @@ def get_results(expression):
     tree = parse_tree(expression)
     results, layers = eval_nn(tree.body)
     
-    return eval_normal(tree.body), results, dump_tree(tree), layers
+    return eval_normal(tree.body), results, dump_tree(tree), [modify_layer(l) for l in layers]
