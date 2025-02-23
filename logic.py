@@ -51,7 +51,7 @@ def modify_layer(layer, goal = (8,8,8)):
     if layer == []:
         return layer
     
-    new_layer = [layer[0]]
+    new_layer = [layer[0].tolist()]
     for i in range(len(goal)):
         current_goal = goal[i]
         current_layer = layer[i+1]
@@ -59,9 +59,9 @@ def modify_layer(layer, goal = (8,8,8)):
         _layer = current_layer.reshape((-1, current_layer.shape[1] // current_goal))
         _layer = np.mean(_layer, axis = 1)
         
-        new_layer.append(_layer)
+        new_layer.append(_layer.tolist())
     
-    new_layer.append(layer[-1])
+    new_layer.append(layer[-1].tolist())
     
     return new_layer
 
