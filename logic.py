@@ -94,6 +94,8 @@ def clean_tree_dump(text):
     while i < len(text):
         pass
         
-
-#TODO: Change here
-expression = "(1+2)*120*(5-6)"
+expression = "10*3+5-2"
+def get_results(expression):
+    tree = parse_tree(expression)
+    
+    return eval_normal(tree.body), eval_nn(tree.body), dump_tree(tree)
