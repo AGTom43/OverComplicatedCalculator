@@ -6,7 +6,6 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/calculate", methods=["POST"])
-
 def calculate():
     data = request.get_json()
     print(data)

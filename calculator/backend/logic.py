@@ -20,8 +20,9 @@ def load_pickle(filename):
         unserialized_data = pickle.load(handle)
         return unserialized_data
     
-mult_model = load_pickle("C:/Users/akhil/Documents/Hack Day 2025/project/ml_model/models/add4.pkl")
-add_model = load_pickle('C:/Users/akhil/Documents/Hack Day 2025/project/ml_model/models/add16.pkl')
+# Load the pre-trained models
+mult_model = load_pickle("../../ml_model/models/add4.pkl")
+add_model = load_pickle('../../ml_model/models/add16.pkl')
 
 
 def manual_predict(model, x):
