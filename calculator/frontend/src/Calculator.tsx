@@ -39,6 +39,7 @@ export default function Calculator({ setExpression, setCalculatedValues }: Calcu
     if (value === "C") {
       setEquation("0");
       setTotalEquation("");
+      setExpression("");
     } 
     else if (value === "=") {
       calculate();

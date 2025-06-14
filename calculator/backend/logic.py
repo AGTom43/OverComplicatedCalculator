@@ -154,7 +154,7 @@ def clean_tree_dump(text):
         
 
 #TODO: Change here
-expression = "10*3+5-2"
+# expression = "10*3+5-2"
 def get_results(expression):
     tree = parse_tree(expression)
 
